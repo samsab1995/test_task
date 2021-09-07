@@ -49,10 +49,11 @@ class Handler extends ExceptionHandler
             return $this->responseJson('Resource Not Found!', 404);
         } elseif ($e instanceof AuthorizationException) {
             return $this->responseJson('Access Denied', 403);
-        } else {
-            return $this->responseJson('Exception Cached!');
         }
+
+        return parent::render($request, $e);
     }
+
 
     private function responseJson($message, $statusCode = 400): JsonResponse
     {
