@@ -19,6 +19,8 @@ class User extends Authenticatable implements JWTSubject
 
     protected $guarded = ['id', 'uuid'];
 
+    protected string $guard = 'api';
+
     protected static function boot()
     {
         parent::boot();
@@ -46,6 +48,11 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     public function products(): HasMany
     {
