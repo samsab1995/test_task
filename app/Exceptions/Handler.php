@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +41,23 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            return $this->responseJson('Resource Not Found!', 404);
+        } elseif ($e instanceof AuthorizationException) {
+            return $this->responseJson('Access Denied', 403);
+        } else {
+            return $this->responseJson('Exception Cached!');
+        }
+    }
+
+    private function responseJson($message, $statusCode = 400): JsonResponse
+    {
+        return response()->json([
+            'message' => $message
+        ], $statusCode);
     }
 }
