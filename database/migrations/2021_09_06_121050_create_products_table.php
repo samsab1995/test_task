@@ -20,6 +20,8 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->uuid('uuid');
             $table->timestamps();
+
+            $table->unique(['user_id', 'name']);
         });
     }
 
