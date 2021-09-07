@@ -14,6 +14,8 @@ class Admin extends Authenticatable implements JWTSubject
 
     protected $guarded = ['id', 'uuid'];
 
+    protected string $guard = 'admin';
+
     protected static function boot()
     {
         parent::boot();
