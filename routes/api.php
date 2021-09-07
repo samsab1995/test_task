@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -23,6 +24,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('refresh', [AuthController::class, 'refresh']);
         Route::get('me', [AuthController::class, 'me']);
+        Route::get('delete', [AuthController::class, 'delete']);
+    });
+    Route::group(['prefix' => 'admin/auth'], function () {
+        Route::post('login', [AdminController::class, 'login']);
+        Route::get('logout', [AdminController::class, 'logout']);
+        Route::get('refresh', [AdminController::class, 'refresh']);
+        Route::get('me', [AdminController::class, 'me']);
     });
     Route::apiResource('product',ProductController::class);
 });
