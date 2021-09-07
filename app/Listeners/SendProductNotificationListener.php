@@ -3,10 +3,10 @@
 namespace App\Listeners;
 
 use App\Events\ProductCreatedEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Mail\ProductDetailMail;
+use Illuminate\Support\Facades\Mail;
 
-class SendProductNotification
+class SendProductNotificationListener
 {
     /**
      * Create the event listener.
@@ -21,11 +21,11 @@ class SendProductNotification
     /**
      * Handle the event.
      *
-     * @param  ProductCreatedEvent  $event
+     * @param ProductCreatedEvent $event
      * @return void
      */
     public function handle(ProductCreatedEvent $event)
     {
-        //
+        Mail::to($event->product->user->email)->send(new ProductDetailMail($event->product));
     }
 }
