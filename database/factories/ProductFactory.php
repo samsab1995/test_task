@@ -26,8 +26,8 @@ class ProductFactory extends Factory
         return [
             'user_id' => $this->faker->numberBetween(1, $users_count),
             'name' => $this->faker->company(),
-            'price' => $this->faker->numberBetween(1, 1000),
-            'uuid' => $this->faker->uuid()
+            'price' => $this->faker->numberBetween(10000, 10000000),
+            'created_at' => $this->faker->dateTimeBetween('-2 years'),
         ];
     }
 }
