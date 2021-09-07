@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProductCreatedEvent;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
@@ -33,6 +34,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request): ProductResource
     {
         $product = $this->productRepository->create($request->validated());
+        ProductCreatedEvent::dispatch($product);
         return new ProductResource($product);
 
     }
