@@ -4,13 +4,13 @@
 namespace App\Repository\Eloquent;
 
 
-use App\Repository\EloquentRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class BaseRepository implements EloquentRepositoryInterface
+abstract class BaseRepository
 {
-    protected $model;
+    protected Model $model;
 
     /**
      * BaseRepository constructor.
@@ -20,7 +20,7 @@ class BaseRepository implements EloquentRepositoryInterface
         $this->model = $model;
     }
 
-    public function create(array $attributes): Collection
+    public function create(array $attributes): ?Model
     {
         return $this->model->create($attributes);
     }
@@ -30,13 +30,25 @@ class BaseRepository implements EloquentRepositoryInterface
         return $this->model->find($id);
     }
 
-    public function update(array $attributes)
+    public function update($uuid, array $attributes): bool
     {
-        return $this->model->update($attributes);
+        return $this->model->newQuery()->where('uuid', $uuid)->update($attributes);
     }
 
-    public function delete($id)
+    public function delete($uuid): bool
     {
-        return $this->delete($id);
+        return $this->model->newQuery()->where('uuid', $uuid)->delete();
     }
+
+    public function all(): Collection
+    {
+        return $this->model->all();
+    }
+
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null): LengthAwarePaginator
+    {
+        return $this->model->paginate($perPage, $columns, $pageName, $page);
+    }
+
+
 }
