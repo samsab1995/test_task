@@ -92,12 +92,4 @@ class AuthController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
-
-    public function delete(): JsonResponse
-    {
-        $status = auth('api')->user()->delete();
-        return response()->json([
-            'status' => $status
-        ]);
-    }
 }
