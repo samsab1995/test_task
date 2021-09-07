@@ -14,10 +14,11 @@ class AddPhoneCountryCityUuidIntoUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->char('phone', 11)->nullable()->after('password');
-            $table->string('country', 30)->nullable()->after('phone');
-            $table->string('city', 30)->nullable()->after('country');
-            $table->uuid('uuid')->after('city');
+            $table->addColumn('char', 'phone', ['length' => 11])->nullable()->unique()->after('password');
+            $table->addColumn('string', 'country', ['length' => 50])->nullable()->after('phone');
+            $table->addColumn('string', 'city', ['length' => 30])->nullable()->after('country');
+            $table->addColumn('uuid', 'uuid')->unique()->after('city');
+            $table->softDeletes();
         });
     }
 
