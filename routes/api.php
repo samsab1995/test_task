@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('refresh', [AuthController::class, 'refresh']);
         Route::get('me', [AuthController::class, 'me']);
-        Route::get('delete', [AuthController::class, 'delete']);
     });
     Route::group(['prefix' => 'admin/auth'], function () {
         Route::post('login', [AdminController::class, 'login']);
@@ -32,6 +32,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('refresh', [AdminController::class, 'refresh']);
         Route::get('me', [AdminController::class, 'me']);
     });
+    Route::get('user', [UserController::class, 'index']);
+    Route::delete('user/{user}', [UserController::class, 'destroy']);
     Route::apiResource('product',ProductController::class);
 });
 
